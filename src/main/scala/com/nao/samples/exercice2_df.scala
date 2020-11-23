@@ -2,6 +2,7 @@ package com.nao.samples
 
 
 
+import com.nao.samples.config.ConfigParser
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -11,8 +12,15 @@ object exercic2_df {
     Logger.getLogger("org").setLevel(Level.OFF)
     import org.apache.spark.sql.functions._
     val spark = SparkSession.builder().master("local").getOrCreate()
+
+
+    val configCli = ConfigParser.getConfigArgs(args)
+
+    val file = configCli.inputPath
     //Question 1 : Lire le fichier en inférant les types
-    val df:DataFrame = spark.read.option("header", false).option("delimiter", ";").option("inferSchema", true).csv("data/donnees.csv")
+    val df:DataFrame = spark.read.option("header", false).option("delimiter", ";").option("inferSchema", true).csv(file)
+
+    //val df:DataFrame = spark.read.option("header", false).option("delimiter", ";").option("inferSchema", true).csv("data/donnees.csv")
     df.show()
 
     //Q2

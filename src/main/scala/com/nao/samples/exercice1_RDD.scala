@@ -1,6 +1,7 @@
 package com.nao.samples
 
 
+import com.nao.samples.config.ConfigParser
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
@@ -8,10 +9,15 @@ object exercice1_RDD {
   def main(args: Array[String]): Unit = {
     Logger.getLogger("org").setLevel(Level.OFF)
 
+    val configCli = ConfigParser.getConfigArgs(args)
     val sparkSession = SparkSession.builder().master("local").getOrCreate()
 
+
+    val file = configCli.inputPath
+
     //Q1
-    val rdd1 = sparkSession.sparkContext.textFile("data/donnees.csv")
+    val rdd1 = sparkSession.sparkContext.textFile(file)
+    //val rdd1 = sparkSession.sparkContext.textFile("data/donnees.csv")
     //rdd1.foreach(println)
 
     //Q2
